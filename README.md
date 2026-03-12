@@ -14,6 +14,16 @@ A full-stack, interactive memory photo wall built as a personal Valentine's Day 
 * **Database:** MySQL (via phpMyAdmin)
 * **Environment:** XAMPP Local Server
 
+## 📸 System Screenshots
+### Welcome Page
+![Welcome Page](screenshots/welcomePage.JPG)
+
+### Calendar
+![Pick a Date!](screenshots/calendar.JPG)
+
+### Sample
+![March Memory Wall](screenshots/sample.JPG)
+
 ---
 
 ## 🚀 How to Run Locally
