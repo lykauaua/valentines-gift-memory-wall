@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Gallery</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="main-container">
+        <h1 class="wall-title">Our Memories</h1>
+
+        <div class="parent">
+            
+            <div class="photo-slot div1">
+                <img src="photos/example1.jpg" alt="Memory" class="slot-image">
+                <button class="delete-btn"><i class="fas fa-times"></i></button>
+            </div>
+
+            <div class="photo-slot div6">
+                <button class="add-btn"><i class="fas fa-plus"></i></button>
+                <button class="delete-btn"><i class="fas fa-times"></i></button>
+            </div>
+
+            <div class="photo-slot div7">
+                <button class="add-btn"><i class="fas fa-plus"></i></button>
+                <button class="delete-btn"><i class="fas fa-times"></i></button>
+            </div>
+
+            <div class="photo-slot div8">
+                 <button class="add-btn"><i class="fas fa-plus"></i></button>
+                 <button class="delete-btn"><i class="fas fa-times"></i></button>
+            </div>
+
+            <div class="photo-slot div3">
+                 <button class="add-btn"><i class="fas fa-plus"></i></button>
+                 <button class="delete-btn"><i class="fas fa-times"></i></button>
+            </div>
+
+            <div class="photo-slot div4">
+                 <button class="add-btn"><i class="fas fa-plus"></i></button>
+                 <button class="delete-btn"><i class="fas fa-times"></i></button>
+            </div>
+
+            <div class="photo-slot div5">
+                 <button class="add-btn"><i class="fas fa-plus"></i></button>
+                 <button class="delete-btn"><i class="fas fa-times"></i></button>
+            </div>
+
+        </div>
+    </div>
+<script>
+        // Get the current month from the URL (e.g., ?month=February)
+const urlParams = new URLSearchParams(window.location.search);
+const currentMonth = urlParams.get('month') || "General";
+
+// Set Title
+document.querySelector('.wall-title').innerText = `${currentMonth} Memories`;
+
+// --- 1. LOAD MEMORIES FROM PHP ---
+function loadMemories() {
+    fetch(`api.php?month=${currentMonth}`)
+    .then(response => response.json())
+    .then(data => {
+        // 'data' is now an array of photos from your database
+        // We loop through each grid slot (div1 to div12) and check if there's a photo for it
+        
+        // First, reset all slots to "Empty State" (+)
+        document.querySelectorAll('.photo-slot').forEach(slot => {
+            // Keep the class (div1, etc) but reset content
+            const originalClass = slot.className; 
+            slot.innerHTML = `<button class="add-btn" onclick="openUploadModal('${originalClass}')"><i class="fas fa-plus"></i></button>`;
+        });
+
+        // Now fill in the ones we found in the DB
+        data.forEach(memory => {
+            // Find the div that matches this memory's position (e.g., .div1)
+            // Note: We stored just 'div1', so we search for that class
+            const slot = document.querySelector(`.${memory.grid_position}`);
+            
+            if (slot) {
+                slot.innerHTML = `
+                    <img src="${memory.image_path}" class="slot-image">
+                    <button class="delete-btn" onclick="deleteMemory(${memory.id})">
+                        <i class="fas fa-times"></i>
+                    </button>
+                `;
+            }
+        });
+    })
+    .catch(error => console.error('Error loading memories:', error));
+}
+
+// --- 2. UPLOADING (The "+" button logic) ---
+// Since we have multiple + buttons, let's use a simple prompt for now, 
+// or you can build a fancy modal later.
+function openUploadModal(slotClasses) {
+    // Extract the specific div class (e.g., "photo-slot div1" -> "div1")
+    const gridPosition = slotClasses.split(' ').find(cls => cls.startsWith('div'));
+    
+    // Create a hidden file input on the fly to trigger the browse window
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
+    
+    input.onchange = e => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        // Create Form Data to send to PHP
+        const formData = new FormData();
+        formData.append('photo', file);
+        formData.append('month', currentMonth);
+        formData.append('grid_position', gridPosition);
+        formData.append('caption', ""); // You can ask user for this via prompt
+        formData.append('date', new Date().toISOString().slice(0, 10)); // Today's date
+
+        // Send to PHP
+        fetch('api.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if(data.status === 'success') {
+                loadMemories(); // Refresh the wall!
+            } else {
+                alert("Upload failed: " + data.message);
+            }
+        });
+    };
+    
+    input.click(); // Trigger the click
+}
+
+// --- 3. DELETING ---
+function deleteMemory(id) {
+    if(confirm("Are you sure you want to delete this memory?")) {
+        fetch('api.php', {
+            method: 'DELETE',
+            body: JSON.stringify({ id: id }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(res => res.json())
+        .then(data => {
+            if(data.status === 'success') {
+                loadMemories(); // Refresh
+            }
+        });
+    }
+}
+
+// Load on start
+loadMemories();
+    </script>
+
+</body>
+
+</html>

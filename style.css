@@ -1,0 +1,280 @@
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #1a1a1a; /* Dark background */
+    color: #ffc3d0;
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Pushes content to top and bottom */
+    align-items: center;
+    height: 100%;
+    padding: 100px 20px; /* Top/Bottom padding controls vertical spacing */
+    text-align: center;
+}
+
+/* Typography */
+.greeting {
+    font-family: 'Pacifico', cursive; /* Handwritten style */
+    font-size: 10rem;
+    text-shadow: 0 0 10px rgba(255, 195, 208, 0.3); /* Soft glowing effect */
+    animation: float 3s ease-in-out infinite;
+
+}
+
+/* Button Styling */
+/* ... Keep your existing body/container resets ... */
+
+/* --- NEW: The Arrow Button Shape --- */
+.love-btn {
+    background-color: #ffc3d0;
+    color: #1a1a1a;
+    margin-top: 70px;
+    border: none;
+    /* Extra padding on the right to account for the arrow tip */
+    padding: 15px 60px 15px 30px; 
+    font-size: 1.2rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-shadow: 0 0 10px rgba(255, 195, 208, 0.3);
+    font-family: 'Poppins', sans-serif;
+    
+    /* This creates the arrow shape pointing right */
+    clip-path: polygon(0% 0%, 85% 0%, 100% 50%, 85% 100%, 0% 100%);
+}
+
+.love-btn:hover {
+    background-color: #ffabc0;
+    transform: translateX(20px); /* Move slightly right on hover */
+}
+
+/* --- NEW: Page Transitions --- */
+
+/* Class to slide content OUT to the LEFT */
+.slide-out-left {
+    animation: slideOut 0.8s cubic-bezier(0.7, 0, 0.3, 1) forwards;
+}
+
+/* Class to slide content IN from the RIGHT */
+.slide-in-right {
+    animation: slideIn 0.8s cubic-bezier(0.7, 0, 0.3, 1) forwards;
+}
+
+@keyframes slideOut {
+    to { 
+        transform: translateX(-100vw); 
+        opacity: 0; 
+    }
+}
+
+@keyframes slideIn {
+    from { 
+        transform: translateX(100vw); 
+        opacity: 0; 
+    }
+    to { 
+        transform: translateX(0); 
+        opacity: 1; 
+    }
+}
+
+/* photo wall css */
+
+.main-container {
+    width: 100%;
+    max-width: 1000px; /* Limits width so grid doesn't get too wide */
+}
+
+.wall-title {
+    text-align: center;
+    font-family: 'Pacifico', cursive;
+    font-size: 3rem;
+    margin-bottom: 30px;
+    text-shadow: 0 0 10px rgba(255, 195, 208, 0.2);
+}
+
+/* --- YOUR GRID CSS (Unchanged logic, just added height) --- */
+.parent {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    gap: 15px; /* Increased gap slightly for aesthetics */
+    
+    /* IMPORTANT: We need a fixed height for the grid to make the rows work. 
+       Adjust this pixel value based on how big you want the wall to be. */
+    height: 600px; 
+}
+
+/* Mapping your classes */
+.div1 { grid-column: span 2 / span 2; grid-row: span 2 / span 2; }
+.div3 { grid-column-start: 1; grid-row: span 3 / span 3; grid-row-start: 3; }
+.div4 { grid-column-start: 2; grid-row: span 3 / span 3; grid-row-start: 3; }
+.div5 { grid-column: span 2 / span 2; grid-row: span 3 / span 3; grid-column-start: 3; grid-row-start: 3; }
+.div6 { grid-column-start: 3; grid-row: span 2 / span 2; grid-row-start: 1; }
+.div7 { grid-column-start: 4; grid-row: span 2 / span 2; grid-row-start: 1; }
+.div8 { grid-column-start: 5; grid-row: span 5 / span 5; grid-row-start: 1; }
+
+
+/* --- THE CARDS (Photo Slots) --- */
+.photo-slot {
+    background-color: #2a2a2a; /* Slightly lighter gray for empty slots */
+    border: 2px dashed #ffc3d0; /* Dashed border looks like a "placeholder" */
+    border-radius: 15px;
+    position: relative; /* Needed for positioning the X button */
+    overflow: hidden; /* Clips the image rounded corners */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.2s ease;
+}
+
+.photo-slot:hover {
+    transform: scale(1.02); /* Subtle pop effect */
+    border-color: #fff;
+}
+
+/* If the slot has an image, remove the dashed border visually */
+.photo-slot:has(.slot-image) {
+    border: 2px solid #ffc3d0;
+}
+
+/* --- The Image --- */
+.slot-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures photo fills the irregular shape */
+    display: block;
+}
+
+/* --- The Buttons --- */
+
+/* The Plus (+) Button */
+.add-btn {
+    background: none;
+    border: none;
+    color: #ffc3d0;
+    font-size: 2rem;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.add-btn:hover {
+    transform: scale(1.2) rotate(90deg); /* Cute rotation on hover */
+    color: #fff;
+}
+
+/* The Delete (X) Button */
+.delete-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: #ffc3d0; /* Pink background */
+    color: #1a1a1a; /* Dark X */
+    border: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    font-size: 0.8rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0; /* Hidden by default */
+    transition: opacity 0.2s;
+}
+
+/* Show Delete button only when hovering over the card */
+.photo-slot:hover .delete-btn {
+    opacity: 1;
+}
+
+.delete-btn:hover {
+    background-color: #ff4d4d; /* Turns red on hover */
+    color: white;
+}
+
+/* calendar pick css*/
+/* --- CALENDAR SPECIFIC STYLES --- */
+
+.calendar-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    text-align: center;
+    padding-top: 50px;
+}
+
+.page-title {
+    font-family: 'Pacifico', cursive;
+    font-size: 3.5rem;
+    margin-bottom: 40px;
+    color: #ffc3d0;
+    text-shadow: 0 0 10px rgba(255, 195, 208, 0.2);
+}
+
+.calendar-grid {
+    display: grid;
+    /* This creates exactly 4 columns equal width */
+    grid-template-columns: repeat(4, 1fr); 
+    /* This creates default row heights */
+    grid-auto-rows: 150px; 
+    gap: 20px;
+    padding: 20px;
+}
+
+.month-card {
+    background-color: #2a2a2a;
+    border: 2px solid #ffc3d0;
+    border-radius: 15px;
+    color: #fff;
+    display: flex; /* Centers text vertically and horizontally */
+    justify-content: center;
+    align-items: center;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
+
+/* Hover Effect: Pop up and glow */
+.month-card:hover {
+    background-color: #ffc3d0;
+    color: #1a1a1a; /* Text turns dark */
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 10px 20px rgba(255, 195, 208, 0.3);
+}
+
+/* Responsive: On mobile, switch to 2 columns */
+@media (max-width: 768px) {
+    .calendar-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.photo-slot {
+    /* ... keep your other styles ... */
+    padding: 0; /* IMPORTANT: Ensures no gap between border and image */
+    overflow: hidden; /* Cuts off any part of the image that sticks out */
+    border: 2px solid #ffc3d0; /* Your border */
+}
+
+.slot-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* This makes the image zoom to fill the box without stretching */
+    display: block; /* Removes tiny generic gaps at the bottom of images */
+}

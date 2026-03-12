@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pick a Month ❤️</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+</head>
+<<body class="page-calendar">>
+
+    <div class="calendar-container">
+        <h1 class="page-title">Pick a Date</h1>
+
+        <div class="calendar-grid">
+            <div class="month-card" onclick="goToWall('January')">January</div>
+            <div class="month-card" onclick="goToWall('February')">February</div>
+            <div class="month-card" onclick="goToWall('March')">March</div>
+            <div class="month-card" onclick="goToWall('April')">April</div>
+            <div class="month-card" onclick="goToWall('May')">May</div>
+            <div class="month-card" onclick="goToWall('June')">June</div>
+            <div class="month-card" onclick="goToWall('July')">July</div>
+            <div class="month-card" onclick="goToWall('August')">August</div>
+            <div class="month-card" onclick="goToWall('September')">September</div>
+            <div class="month-card" onclick="goToWall('October')">October</div>
+            <div class="month-card" onclick="goToWall('November')">November</div>
+            <div class="month-card" onclick="goToWall('December')">December</div>
+        </div>
+    </div>
+
+    <script>
+       function goToWall(monthName) {
+        // This constructs the URL like: photo-wall.html?month=January
+        console.log("Navigating to:", `photo-wall.html?month=${monthName}`); // Debugging line
+        window.location.href = `photo-wall.html?month=${monthName}`;
+    }
+    </script>
+</body>
+</html>
