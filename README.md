@@ -18,10 +18,10 @@ A full-stack, interactive memory photo wall built as a personal Valentine's Day 
 ### Welcome Page
 ![Welcome Page](screenshots/welcomePage.JPG)
 
-### Calendar
+### Pick a Date!
 ![Pick a Date!](screenshots/calendar.JPG)
 
-### Sample
+### March Memory Wall
 ![March Memory Wall](screenshots/sample.JPG)
 
 ---
@@ -39,3 +39,7 @@ Since this project relies on a PHP backend and a MySQL database, it cannot simpl
 2. Navigate to your XAMPP `htdocs` directory:
    ```bash
    cd C:/xampp/htdocs
+
+### Connect with Me!
+## **LinkedIn:** www.linkedin.com/in/lykauaua
+## **Gmail:** lalalyka.narito@gmail.com
